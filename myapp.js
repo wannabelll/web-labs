@@ -14,12 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Перевірка на наявність великих літер та цифр у паролі
-        if (!/[A-Z]/.test(password) && !/[0-9]/.test(password)) {
+       /* if (!/[A-Z]/.test(password) && !/[0-9]/.test(password)) {
             alert("You must use uppercase and digits in password!");
             return;
         }
+        */
 
-        /*
+        
         if (!/[A-Z]/.test(password)) {
             alert("You must use uppercase in password!");
             return;
@@ -27,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("You must use digits in password!");
             return;
         }
-            */
+          
 
 // чи є "@"
         if (!email.includes('@')){

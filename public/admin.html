@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Адміністраторський кабінет</title>
+    <link rel="stylesheet" href="styles2.css"> <!-- Link to your styles file -->
+</head>
+<body>
+    <header>
+        <h1>Адміністраторський кабінет</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Головна</a></li>
+                    <li><a href="/contacts">Контакти</a></li>
+                    <li><a href="/login">Обліковий запис</a></li>
+                    <li><a href="/about">Про нас</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Сторінка адміністратора</h2>
+            <p>Список користувачів:</p>
+
+            <!-- Форма для фільтрації за електронною поштою -->
+            <label for="emailFilter">Фільтрувати за електронною поштою:</label>
+            <input type="text" id="emailFilter" placeholder="Введіть електронну пошту" oninput="filterUsers()">
+            <br><br>
+
+            <!-- Таблиця для відображення користувачів -->
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ім'я</th>
+                        <th>Електронна пошта</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Динамічний контент буде вставлений тут за допомогою JavaScript -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Права не захищені</p>
+    </footer>
+
+    <script>
+        let users = []; // Змінна для збереження даних користувачів
+
+        // Функція для завантаження користувачів з API
+        function loadUsers() {
+            fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.json())
+            .then(data => {
+                users = data; // Зберігаємо отримані дані
+                displayUsers(users); // Відображаємо користувачів
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+        }
+
+        // Функція для відображення користувачів
+        function displayUsers(users) {
+            const tableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Очищаємо таблицю перед додаванням нових рядків
+
+            // Перебираємо масив користувачів і додаємо рядки в таблицю
+            users.forEach(item => {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                `;
+            });
+        }
+
+        // Функція для фільтрації користувачів за електронною поштою
+        function filterUsers() {
+            const filterValue = document.getElementById('emailFilter').value.toLowerCase();
+            const filteredUsers = users.filter(user => user.email.toLowerCase().includes(filterValue));
+            displayUsers(filteredUsers); // Відображаємо відфільтрованих користувачів
+        }
+
+        // Завантажуємо користувачів при першому завантаженні сторінки
+        document.addEventListener('DOMContentLoaded', loadUsers);
+    </script>
+</body>
+</html>
